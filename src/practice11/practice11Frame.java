@@ -6,9 +6,11 @@ package practice11;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Vector;
+import javax.crypto.KEM;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -24,6 +26,7 @@ public class practice11Frame extends javax.swing.JFrame {
     public practice11Frame() {
         initComponents();
         getMenu();
+
     }
 
     /**
@@ -50,6 +53,7 @@ public class practice11Frame extends javax.swing.JFrame {
         deleteBtn = new javax.swing.JButton();
         addBtn = new javax.swing.JButton();
         editBtn = new javax.swing.JButton();
+        clearBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -119,80 +123,90 @@ public class practice11Frame extends javax.swing.JFrame {
             }
         });
 
+        clearBtn.setText("Clear");
+        clearBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                clearBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
             .addGroup(layout.createSequentialGroup()
+                .addGap(75, 75, 75)
+                .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(editBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 241, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(43, 43, 43)
+                .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 806, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(100, 100, 100)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(addBtn)
-                        .addGap(229, 229, 229))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(88, 88, 88)
+                        .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(102, 102, 102)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(55, 55, 55)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtTel, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txt_name, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(editBtn)
-                                        .addGap(18, 18, 18)
-                                        .addComponent(deleteBtn))
-                                    .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(searchBtn)
-                .addContainerGap())
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(100, 100, 100)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(577, Short.MAX_VALUE)))
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(88, 88, 88)
+                        .addComponent(txt_name, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(102, 102, 102)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(clearBtn)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(86, 86, 86)
+                            .addComponent(txtTel, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(86, 86, 86)
+                            .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(34, 34, 34)
-                .addComponent(txt_name, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtTel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel2))
+                    .addComponent(txt_name, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtAddress, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(12, 12, 12)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtTel, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt_email, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(searchBtn)
-                    .addComponent(addBtn)
-                    .addComponent(editBtn)
-                    .addComponent(deleteBtn))
-                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(74, 74, 74)
+                        .addComponent(addBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(clearBtn)
+                        .addGap(38, 38, 38)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(editBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(deleteBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(searchBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(25, 25, 25)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(52, 52, 52)
-                    .addComponent(jLabel2)
-                    .addContainerGap(451, Short.MAX_VALUE)))
         );
 
         pack();
@@ -209,21 +223,33 @@ public class practice11Frame extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField1ActionPerformed
 
     String supplieId;
-   
+    String name;
+    String tel;
+    String address;
+    String email;
+
     private void formWindowActivated(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowActivated
         // TODO add your handling code here:
-        
+
         jTable1.getSelectionModel().addListSelectionListener(event -> {
-            int selectedRow = jTable1.getSelectedRow();
-            if (selectedRow != -1) {
-                supplieId = (String) jTable1.getValueAt(selectedRow, 0);
-                System.out.println("Suplier Id " + supplieId);
-                txt_name.setText(jTable1.getValueAt(selectedRow, 1).toString());
-                txtAddress.setText(jTable1.getValueAt(selectedRow, 2).toString());
-                txtTel.setText(jTable1.getValueAt(selectedRow, 3).toString());
-                txt_email.setText(jTable1.getValueAt(selectedRow, 4).toString());
+            if (!event.getValueIsAdjusting()) {
+                int selectedRow = jTable1.getSelectedRow();
+                System.out.println(selectedRow);
+                if (selectedRow != -1) {
+                    supplieId = (String) jTable1.getValueAt(selectedRow, 0);
+                    System.out.println("Suplier Id " + supplieId);
+                    txt_name.setText(jTable1.getValueAt(selectedRow, 1).toString());
+                    name = (String) jTable1.getValueAt(selectedRow, 1);
+                    txtAddress.setText(jTable1.getValueAt(selectedRow, 2).toString());
+                    address = (String) jTable1.getValueAt(selectedRow, 2);
+                    txtTel.setText(jTable1.getValueAt(selectedRow, 3).toString());
+                    tel = (String) jTable1.getValueAt(selectedRow, 3);
+                    txt_email.setText(jTable1.getValueAt(selectedRow, 4).toString());
+                    email = (String) jTable1.getValueAt(selectedRow, 4);
+                }
             }
         });
+        getMenu();
     }//GEN-LAST:event_formWindowActivated
 
     private void txt_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_nameActionPerformed
@@ -232,23 +258,79 @@ public class practice11Frame extends javax.swing.JFrame {
 
     private void deleteBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_deleteBtnActionPerformed
         // TODO add your handling code here:
-        
+
         practice11Service prSvc = new practice11Service();
         boolean deleteData = prSvc.deleteData(supplieId);
-        if(deleteData){
-            JOptionPane.showMessageDialog(this, "You have delete Succuessfully","Success", JOptionPane.INFORMATION_MESSAGE);
-        }else{
-        JOptionPane.showMessageDialog(this, "Delete Failed","Failed", JOptionPane.INFORMATION_MESSAGE);     
+        if (deleteData) {
+            JOptionPane.showMessageDialog(this, "You have delete Succuessfully", "Success", JOptionPane.INFORMATION_MESSAGE);
+            txt_name.setText("");
+            txtTel.setText("");
+            txtAddress.setText("");
+            txt_email.setText("");
+            getMenu();
+        } else {
+            JOptionPane.showMessageDialog(this, "Delete Failed", "Failed", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_deleteBtnActionPerformed
 
     private void addBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addBtnActionPerformed
         // TODO add your handling code here:
+        String name = txt_name.getText();
+        String tel = txtTel.getText();
+        String address = txtAddress.getText();
+        String email = txt_email.getText();
+        practice11Service prSvc = new practice11Service();
+        Map<String, String> insert = new HashMap<>();
+        insert.put("supplier_name", name);
+        insert.put("address", address);
+        insert.put("tel", tel);
+        insert.put("email", email);
+        boolean check = prSvc.insertData(insert);
+        if (check) {
+            JOptionPane.showMessageDialog(this, "You have added Successful", "Sucess", JOptionPane.INFORMATION_MESSAGE);
+            txt_name.setText("");
+            txtTel.setText("");
+            txtAddress.setText("");
+            txt_email.setText("");
+            getMenu();
+        } else {
+            JOptionPane.showMessageDialog(this, "Inert Failled", "Failled", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_addBtnActionPerformed
 
     private void editBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editBtnActionPerformed
         // TODO add your handling code here:
+        String upName = txt_name.getText();
+        practice11Service prSvc = new practice11Service();
+
+        Map<String, String> update = new HashMap<>();
+        update.put("supplier_id", supplieId);
+        update.put("supplier_name", upName);
+        update.put("address", address);
+        update.put("tel", tel);
+        update.put("email", email);
+        boolean up = prSvc.updateData(update);
+        if (up) {
+            System.out.println("Jok jey");
+            txt_name.setText("");
+            txtTel.setText("");
+            txtAddress.setText("");
+            txt_email.setText("");
+            getMenu();
+        } else {
+            System.out.println("Failed");
+        }
+
+
     }//GEN-LAST:event_editBtnActionPerformed
+
+    private void clearBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearBtnActionPerformed
+        // TODO add your handling code here:
+        txt_name.setText("");
+        txtTel.setText("");
+        txtAddress.setText("");
+        txt_email.setText("");
+    }//GEN-LAST:event_clearBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -288,46 +370,48 @@ public class practice11Frame extends javax.swing.JFrame {
         });
     }
     practice11Service practice = new practice11Service();
-    String [] clm = {"supplier_id", "supplier_name", "address", "tel", "email"};
-    public void getMenu(){
-        DefaultTableModel tablemodel = new DefaultTableModel(clm,0);
+    String[] clm = {"supplier_id", "supplier_name", "address", "tel", "email"};
+
+    public void getMenu() {
+        DefaultTableModel tablemodel = new DefaultTableModel(clm, 0);
         List<Map<String, String>> prepSubResp = practice.getAllData();
-        for(Map<String, String> sub : prepSubResp){
+        for (Map<String, String> sub : prepSubResp) {
 //           List<String> valueList = new ArrayList<>(sub.values());
 //           List<String> keyList = new ArrayList<>(sub.keySet());
-           List<Object> prepList = new ArrayList();
-           prepList.add(sub.get("supplier_id"));
-           prepList.add(sub.get("supplier_name"));
-           prepList.add(sub.get("address"));
-           prepList.add(sub.get("tel"));
-           prepList.add(sub.get("email"));
-           
-           tablemodel.addRow(prepList.toArray());
+            List<Object> prepList = new ArrayList();
+            prepList.add(sub.get("supplier_id"));
+            prepList.add(sub.get("supplier_name"));
+            prepList.add(sub.get("address"));
+            prepList.add(sub.get("tel"));
+            prepList.add(sub.get("email"));
+
+            tablemodel.addRow(prepList.toArray());
         }
         jTable1.setModel(tablemodel);
-        
+
     }
-    
+
     public void searchMenu(String Subname) {
-        DefaultTableModel tablemodel = new DefaultTableModel(clm,0);
+        DefaultTableModel tablemodel = new DefaultTableModel(clm, 0);
         List<Map<String, String>> selectedSubjectResp = practice.searchData(Subname);
-        for(Map<String, String> sub : selectedSubjectResp){
+        for (Map<String, String> sub : selectedSubjectResp) {
 //           List<String> valueList = new ArrayList<>(sub.values());
 //           List<Integer> keyList = new ArrayList<>(sub.keySet());
-           List<Object> prepList = new ArrayList();
-           prepList.add(sub.get("supplier_id"));
-           prepList.add(sub.get("supplier_name"));
-           prepList.add(sub.get("address"));
-           prepList.add(sub.get("tel"));
-           prepList.add(sub.get("email"));
+            List<Object> prepList = new ArrayList();
+            prepList.add(sub.get("supplier_id"));
+            prepList.add(sub.get("supplier_name"));
+            prepList.add(sub.get("address"));
+            prepList.add(sub.get("tel"));
+            prepList.add(sub.get("email"));
 
-           tablemodel.addRow(prepList.toArray());
+            tablemodel.addRow(prepList.toArray());
         }
         jTable1.setModel(tablemodel);
     }
-    
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addBtn;
+    private javax.swing.JButton clearBtn;
     private javax.swing.JButton deleteBtn;
     private javax.swing.JButton editBtn;
     private javax.swing.JLabel jLabel1;

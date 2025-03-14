@@ -190,8 +190,17 @@ public class practice11Service {
             pstmt.setString(3, targetEle.get("tel"));
             pstmt.setString(4, targetEle.get("email"));
             pstmt.setString(5, targetEle.get("supplier_id"));
+//            System.out.println("UPDATE Supplier_Tbl SET supplier_name = " +targetEle.get("supplier_name")+ 
+//                    ", address = + " + targetEle.get("address") + " , tel = " +  targetEle.get("tel")
+//                    ", email = "+ setString(4, targetEle.get("email") + "WHERE supplier_id = ?" + targetEle.get("supplier_id");
+                    System.out.println("UPDATE Supplier_Tbl SET supplier_name = '" + targetEle.get("supplier_name") + 
+                   "', address = '" + targetEle.get("address") + 
+                   "', tel = '" + targetEle.get("tel") + 
+                   "', email = '" + targetEle.get("email") + 
+                   "' WHERE supplier_id = " + targetEle.get("supplier_id") + ";");
+
             int updateRowAffected = pstmt.executeUpdate();
-            if (updateRowAffected != 1) {
+            if (updateRowAffected == 0) {
                 throw new Exception("Failed to update the data: Due to unexpected row affected from database");
             }
             conn.commit();
