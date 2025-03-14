@@ -29,6 +29,27 @@ public class practice11Service {
     private static final String dbUsername = "sa";
     private static final String dbPassword = "vinn9502";
     
+    
+//    Connection conn = null;
+//        try{
+//            conn = DriverManager.getConnection(connectionString, dbUsername, dbPassword);
+//        } catch (SQLException e)  {
+//            System.out.println(e);
+//            System.out.println("------------ (┬┬﹏┬┬) Error (┬┬﹏┬┬) -----------");
+//            return null;
+//        } finally {
+//            try {
+//                if (conn != null) {
+//                    conn.close();
+//                }
+//            } catch (SQLException e) {
+//                System.out.println(e);
+//                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+//                System.out.println("Something went wrong, Could be closing connection failed");
+//            }
+//
+//        }
+    
     public List<Map<String, String>>  getAllData() {
         Connection conn = null;
         try{
@@ -114,7 +135,36 @@ public class practice11Service {
         }
     }
 
+    public boolean deleteData(String targetId) {
+        Connection conn = null;
+        try{
+            conn = DriverManager.getConnection(connectionString, dbUsername, dbPassword);
+            PreparedStatement pstmt = conn.prepareStatement("DELETE FROM Supplier_Tbl WHERE supplier_id = ?");
+            pstmt.setString(1, targetId);
+            int AffectedRow = pstmt.executeUpdate();
+            if (AffectedRow != 1) {
+                throw new Exception("unexpected row affected from database");
+            }
+        } catch (Exception e)  {
+            System.out.println(e);
+            System.out.println("------------ (┬┬﹏┬┬) Error (┬┬﹏┬┬) -----------");
+            return false;
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.out.println(e);
+                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                System.out.println("Something went wrong, Could be closing connection failed");
+            }
 
+        }
+        return true;
+    }
+
+   
 }
 
 
