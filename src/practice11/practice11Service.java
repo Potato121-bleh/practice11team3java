@@ -27,7 +27,7 @@ public class practice11Service {
     
     private static final String connectionString = "jdbc:sqlserver://localhost:1434; databaseName=java_practice; encrypt=true; trustServerCertificate=true ";
     private static final String dbUsername = "sa";
-    private static final String dbPassword = "userNice";
+    private static final String dbPassword = "vinn9502";
     
     public List<Map<String, String>>  getAllData() {
         Connection conn = null;
