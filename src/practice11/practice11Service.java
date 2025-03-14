@@ -94,6 +94,7 @@ public class practice11Service {
         Connection conn = null;
         try{
             conn = DriverManager.getConnection(connectionString, dbUsername, dbPassword);
+            conn.setAutoCommit(false);
             String sql = "Select * From Supplier_Tbl Where supplier_name Collate SQL_Latin1_General_CP437_BIN2 like '%' + ?  + '%' ";
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, Subname);
@@ -139,13 +140,71 @@ public class practice11Service {
         Connection conn = null;
         try{
             conn = DriverManager.getConnection(connectionString, dbUsername, dbPassword);
+            conn.setAutoCommit(false);
             PreparedStatement pstmt = conn.prepareStatement("DELETE FROM Supplier_Tbl WHERE supplier_id = ?");
             pstmt.setString(1, targetId);
             int AffectedRow = pstmt.executeUpdate();
             if (AffectedRow != 1) {
                 throw new Exception("unexpected row affected from database");
             }
+            conn.commit();
         } catch (Exception e)  {
+            try {
+                if (conn != null) {
+                    conn.rollback();
+                }
+            } catch (SQLException rollbackErr) {
+                System.out.println(rollbackErr);
+                System.out.println("!!!!!!!!!!!!!!!!!!!! ERROR !!!!!!!!!!!!!!!!!!!!");
+                System.out.println("Something went wrong, Could be rollback failed");
+            }
+            System.out.println(e);
+            System.out.println("------------ (┬┬﹏┬┬) Error (┬┬﹏┬┬) -----------");
+            return false;
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.out.println(e);
+                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                System.out.println("Something went wrong, Could be closing connection failed");
+            }
+
+        }
+        
+        return true;
+    }
+
+    public boolean updateData(Map<String, String> targetEle) {
+        Connection conn = null;
+        try{
+            conn = DriverManager.getConnection(connectionString, dbUsername, dbPassword);
+            conn.setAutoCommit(false);
+            PreparedStatement pstmt = conn.prepareStatement(
+                    "UPDATE Supplier_Tbl SET supplier_name = ?, address = ?, tel = ?, email = ? WHERE supplier_id = ?"
+            );
+            pstmt.setString(1, targetEle.get("supplier_name"));
+            pstmt.setString(2, targetEle.get("address"));
+            pstmt.setString(3, targetEle.get("tel"));
+            pstmt.setString(4, targetEle.get("email"));
+            pstmt.setString(5, targetEle.get("supplier_id"));
+            int updateRowAffected = pstmt.executeUpdate();
+            if (updateRowAffected != 1) {
+                throw new Exception("Failed to update the data: Due to unexpected row affected from database");
+            }
+            conn.commit();
+        } catch (Exception e)  {
+            try {
+                if (conn != null) {
+                    conn.rollback();
+                }
+            } catch (SQLException rollbackErr) {
+                System.out.println(rollbackErr);
+                System.out.println("!!!!!!!!!!!!!!!!!!!! ERROR !!!!!!!!!!!!!!!!!!!!");
+                System.out.println("Something went wrong, Could be rollback failed");
+            }
             System.out.println(e);
             System.out.println("------------ (┬┬﹏┬┬) Error (┬┬﹏┬┬) -----------");
             return false;
@@ -164,7 +223,48 @@ public class practice11Service {
         return true;
     }
 
-   
+    public boolean insertData(Map<String, String> targetEle) {
+        Connection conn = null;
+        try{
+            conn = DriverManager.getConnection(connectionString, dbUsername, dbPassword);
+            conn.setAutoCommit(false);
+            PreparedStatement pstmt = conn.prepareStatement("INSERT INTO Supplier_Tbl VALUES (?, ?, ?, ?)");
+            pstmt.setString(1, targetEle.get("supplier_name"));
+            pstmt.setString(2, targetEle.get("address"));
+            pstmt.setString(3, targetEle.get("tel"));
+            pstmt.setString(4,  targetEle.get("email"));
+            int rowAffected = pstmt.executeUpdate();
+            if (rowAffected != 1) {
+                throw new Exception("unexpected row affected from database");
+            }
+            conn.commit();
+        } catch (Exception e)  {
+            try {
+                if (conn != null) {
+                    conn.rollback();
+                }
+            } catch (SQLException rollbackErr) {
+                System.out.println(rollbackErr);
+                System.out.println("!!!!!!!!!!!!!!!!!!!! ERROR !!!!!!!!!!!!!!!!!!!!");
+                System.out.println("Something went wrong, Could be rollback failed");
+            }
+            System.out.println(e);
+            System.out.println("------------ (┬┬﹏┬┬) Error (┬┬﹏┬┬) -----------");
+            return false;
+        } finally {
+            try {
+                if (conn != null) {
+                    conn.close();
+                }
+            } catch (SQLException e) {
+                System.out.println(e);
+                System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                System.out.println("Something went wrong, Could be closing connection failed");
+            }
+        }
+        return true;
+    }
+
 }
 
 
